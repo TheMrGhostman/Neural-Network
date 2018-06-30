@@ -11,6 +11,7 @@ class Point:
     def __init__(self):
         self.x = uniform(0,200)
         self.y = uniform(0,200)
+        self.bias = 1
         if self.x > self.y:
             self.label = 1
         else:

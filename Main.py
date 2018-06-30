@@ -16,8 +16,8 @@ from random import shuffle
 body = []
 
 plt.figure("test")
-color = ["red", "green", "blue"]
-plt.plot(np.arange(0,200),np.arange(0,200), color = "red")
+color = ["green", "lime", "blue"]
+plt.plot(np.arange(0,200),np.arange(0,200), lw = 2, color = "red")
 for i in range(200):
     n = p.Point()
     m = p.Point.println(n)
@@ -26,9 +26,9 @@ for i in range(200):
 plt.show()
 
 
-brain = perceptron.Perceptron()
+brain = perceptron.Perceptron(2)
 
-for j in range(10):
+for j in range(1):
     shuffle(body)
     for pt in body:
         inputs = [pt.x, pt.y]
@@ -36,8 +36,10 @@ for j in range(10):
 
 
 plt.figure("testing")
-plt.plot(np.arange(0,200),np.arange(0,200), color = "red")
-for i in range(1000):
+plt.plot(np.arange(0,200),np.arange(0,200), lw=2, color = "red")
+for i in range(100):
     b = p.Point()
     plt.scatter(b.x, b.y, color = color[int(brain.predict([b.x, b.y]))])
 plt.show()
+
+print(brain.weights)

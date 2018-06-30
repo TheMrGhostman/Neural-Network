@@ -7,28 +7,40 @@ Created on Fri Jun 29 16:06:25 2018
 """
 import numpy as np
 
+def add_bias(inputs, TFbias):
+    if TFbias:
+        return np.hstack((np.array(inputs), np.ones(1)))
+    else:
+        return np.array(inputs)
+    
 class Perceptron:    
     
-    def __init__(self):
+    def __init__(self, n_features, addBias = True):
+        #adding bias or not
+        self.TFbias = addBias
         #initialize wights randomly 
-        self.weights = np.random.uniform(-1, 1, 2)    
+        self.weights = np.random.uniform(-1, 1, n_features + self.TFbias)
         self.learning_rate = 0.1
-        
+        self.error = 'nan'
+    
     def predict(self, inputs):
-        return np.sign(np.dot(np.array(inputs), self.weights))
+        return np.sign(np.dot(add_bias(inputs, self.TFbias), self.weights))
     
     def fit(self, inputs, label):
         if isinstance(label, list):
             for i, point in enumerate(inputs):
                 guess = Perceptron.predict(self, point)
-                error = label[i] - guess
-                self.weights = self.weights + error*np.array(point)*self.learning_rate
+                self.error = label[i] - guess
+                self.weights = self.weights + self.error*\
+                                add_bias(point, self.TFbias)*self.learning_rate
         else:
             guess = Perceptron.predict(self, inputs)
-            error = label - guess
-            self.weights = self.weights + error*np.array(inputs)*self.learning_rate
+            self.error = label - guess
+            self.weights = self.weights + self.error*\
+                           add_bias(inputs, self.TFbias)*self.learning_rate
         
-        
+    def score(self):
+        return(self.error)
         
 """        
 p = Perceptron()    
